@@ -54,11 +54,11 @@
                     `;
                 }
                 this.LI = document.getElementsByClassName('item');
-                this.DIV.style.height = this.LI[0].getElementsByTagName('img')[0].height + 'px';
                 this.WIDTH = this.LI[0].getElementsByTagName('img')[0].width;
                 for (let i = 0; i<this.LI.length;i++) {
                     this.LI[i].style.width = this.WIDTH + 'px';
                 }
+                this.DIV.style.height = this.LI[0].getElementsByTagName('img')[0].height + 'px';
                 this.DIV.style.width = this.WIDTH * this.arr.length + 'px';
                 this.DIV.style.transform= 'translate3d(' + -(this.WIDTH) + 'px'+ ',0,0)';
                 this.next();
@@ -66,14 +66,17 @@
                 this.autoplay();
             },
             next() {
+                //点击下一页按钮
                 document.getElementById('next').onclick= (e) => {
                     e.preventDefault();
                     clearInterval(this.time);
                     this.removeImg (300);
+                    //点击完成操作时在一次调用自动轮播
                     this.start();
                 }
             },
             prev() {
+                //点击上一页按钮
                 document.getElementById('prev').onclick= (e) => {
                     e.preventDefault();
                     clearInterval(this.time);
@@ -86,18 +89,20 @@
                             this.DIV.style.transitionDuration = '0s';
                             this.INDEX = this.arr.length-2;
                         },300)}
+                        //调用自动轮播
                         this.start();
                 }
             },
             autoplay() {
+                //自动轮播定时器
                this.time = setInterval(() =>{
                     this.removeImg(500)},3000);
             },
             removeImg (size) {
+                //下一页功能
                 this.INDEX++;
                 this.DIV.style.transitionDuration = '0.3s';
                 this.DIV.style.transform= 'translate3d(' + -(this.WIDTH * this.INDEX) + 'px'+ ',0,0)';
-
                 if (this.INDEX >= this.arr.length-1){
                     setTimeout(() =>{
                         this.DIV.style.transform= 'translate3d(' + -(this.WIDTH) + 'px'+ ',0,0)';
