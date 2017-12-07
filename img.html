@@ -28,12 +28,11 @@
 <body>
     <div class="slider" id="slider">
         <ul class="list" id="list">
-
         </ul>
     </div>
     <ul>
-        <li><a href="" id="prev">上一页</a></li>
         <li><a href="" id="next">下一页</a></li>
+        <li><a href="" id="prev">上一页</a></li>
     </ul>
     <script>
         let app = {
@@ -44,7 +43,7 @@
             WIDTH :0,
             sudu: 0,
             INDEX: 1,
-            tiem: null,
+            time: null,
             init() {
                 this.DIV = document.getElementById('slider');
                 this.UL = document.getElementById('list');
@@ -70,19 +69,8 @@
                 document.getElementById('next').onclick= (e) => {
                     e.preventDefault();
                     clearInterval(this.time);
-                    this.INDEX++;
-                    this.DIV.style.transitionDuration = '0.3s';
-                    this.DIV.style.transform= 'translate3d(' + -(this.WIDTH * this.INDEX) + 'px'+ ',0,0)';
-
-                    if (this.INDEX >= this.arr.length-1){
-                    setTimeout(() =>{
-                        this.DIV.style.transform= 'translate3d(' + -(this.WIDTH) + 'px'+ ',0,0)';
-                        this.DIV.style.transitionDuration = '0s';
-                        this.INDEX = 1;
-                    },300)}
-                    setTimeout(() => {
-                        this.autoplay();
-                    },3000);
+                    this.removeImg (300);
+                    this.start();
                 }
             },
             prev() {
@@ -98,23 +86,30 @@
                             this.DIV.style.transitionDuration = '0s';
                             this.INDEX = this.arr.length-2;
                         },300)}
-                    setTimeout(() => {
-                        this.autoplay();
-                    },3000);
+                        this.start();
                 }
             },
             autoplay() {
-               this.time = setInterval( () => {
-                    this.INDEX++;
-                    this.DIV.style.transitionDuration = '0.3s';
-                    this.DIV.style.transform= 'translate3d(' + -(this.WIDTH * this.INDEX) + 'px'+ ',0,0)';
-                    if (this.INDEX >= this.arr.length-1){
-                        setTimeout(() =>{
-                            this.DIV.style.transform= 'translate3d(' + -(this.WIDTH) + 'px'+ ',0,0)';
-                            this.DIV.style.transitionDuration = '0s';
-                            this.INDEX = 1;
-                        },500)}
-                },3000);
+               this.time = setInterval(() =>{
+                    this.removeImg(500)},3000);
+            },
+            removeImg (size) {
+                this.INDEX++;
+                this.DIV.style.transitionDuration = '0.3s';
+                this.DIV.style.transform= 'translate3d(' + -(this.WIDTH * this.INDEX) + 'px'+ ',0,0)';
+
+                if (this.INDEX >= this.arr.length-1){
+                    setTimeout(() =>{
+                        this.DIV.style.transform= 'translate3d(' + -(this.WIDTH) + 'px'+ ',0,0)';
+                        this.DIV.style.transitionDuration = '0s';
+                        this.INDEX = 1;
+                    },size)
+                }
+            },
+            start() {
+                setTimeout(() => {
+                    this.autoplay();
+                },5000);
             }
         };
         app.init();
